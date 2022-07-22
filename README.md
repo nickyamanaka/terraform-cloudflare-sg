@@ -5,7 +5,7 @@ Terraform module which creates a security group with the latest IPs CIDRs from [
 ## Usage
 ```hcl
 module "vpc" {
-  source = "github.com/nickyamanaka/terraform-cloudflare-sg?ref=v1.0.0"
+  source = "github.com/nickyamanaka/terraform-cloudflare-sg?ref=v1.0.1"
   name   = "cloudflare"
   vpc_id = "vpc-xxxxxxxxxxxxxxxxx"
   tags = {
@@ -37,6 +37,8 @@ No modules.
 | [aws_ec2_managed_prefix_list.cloudflare_ipv4](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/ec2_managed_prefix_list) | resource |
 | [aws_ec2_managed_prefix_list.cloudflare_ipv6](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/ec2_managed_prefix_list) | resource |
 | [aws_security_group.cloudflare](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group) | resource |
+| [aws_security_group_rule.cloudflare_sg_ingress_ipv4](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group_rule) | resource |
+| [aws_security_group_rule.cloudflare_sg_ingress_ipv6](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group_rule) | resource |
 
 ## Inputs
 
@@ -46,8 +48,8 @@ No modules.
 | <a name="input_cloudflare_ipv6_pl_name"></a> [cloudflare\_ipv6\_pl\_name](#input\_cloudflare\_ipv6\_pl\_name) | Name for the pl | `string` | `"Cloudflare IPv6"` | no |
 | <a name="input_description"></a> [description](#input\_description) | Security Group description | `string` | `"Cloudflare"` | no |
 | <a name="input_from_port"></a> [from\_port](#input\_from\_port) | Start port to allow, defaults to all | `number` | `0` | no |
-| <a name="input_name"></a> [name](#input\_name) | Name for the security group, conflicts with `name_prefix` | `string` | `""` | yes, conflicts with `name_prefix` |
-| <a name="input_name_prefix"></a> [name\_prefix](#input\_name\_prefix) | Name prefix for the security group, conflicts with `name` | `string` | `""` | yes, if not using `name` |
+| <a name="input_name"></a> [name](#input\_name) | Name for the security group, conflicts with `name_prefix` | `string` | `""` | no |
+| <a name="input_name_prefix"></a> [name\_prefix](#input\_name\_prefix) | Name prefix for the security group, conflicts with `name` | `string` | `""` | no |
 | <a name="input_protocol"></a> [protocol](#input\_protocol) | Protocol to allow, defaults to all | `string` | `"-1"` | no |
 | <a name="input_revoke_rules_on_delete"></a> [revoke\_rules\_on\_delete](#input\_revoke\_rules\_on\_delete) | Instruct Terraform to revoke all of the Security Groups attached ingress and egress rules before deleting the rule itself | `bool` | `true` | no |
 | <a name="input_tags"></a> [tags](#input\_tags) | A map of tags to add to all resources | `map(string)` | `{}` | no |
