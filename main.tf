@@ -95,25 +95,30 @@ resource "aws_security_group" "cloudflare" {
   vpc_id                 = var.vpc_id
   revoke_rules_on_delete = var.revoke_rules_on_delete
 
-  ingress {
-    description     = "Allow Cloudflare IPv4 IPs"
-    from_port       = var.from_port
-    to_port         = var.to_port
-    protocol        = var.protocol
-    prefix_list_ids = [aws_ec2_managed_prefix_list.cloudflare_ipv4.id]
-  }
-
-  ingress {
-    description     = "Allow Cloudflare IPv6 IPs"
-    from_port       = var.from_port
-    to_port         = var.to_port
-    protocol        = var.protocol
-    prefix_list_ids = [aws_ec2_managed_prefix_list.cloudflare_ipv6.id]
-  }
-
   tags = merge(var.tags)
 
   lifecycle {
     create_before_destroy = true
   }
+
 }
+resource "aws_security_group_rule" "cloudflare_sg_ingress_ipv4" {
+  description       = "Allow Cloudflare IPv4 IPs"
+  type              = "ingress"
+  from_port         = var.from_port
+  to_port           = var.to_port
+  protocol          = var.protocol
+  prefix_list_ids   = [aws_ec2_managed_prefix_list.cloudflare_ipv4.id]
+  security_group_id = aws_security_group.cloudflare.id
+}
+
+resource "aws_security_group_rule" "cloudflare_sg_ingress_ipv6" {
+  description       = "Allow Cloudflare IPv6 IPs"
+  type              = "ingress"
+  from_port         = var.from_port
+  to_port           = var.to_port
+  protocol          = var.protocol
+  prefix_list_ids   = [aws_ec2_managed_prefix_list.cloudflare_ipv6.id]
+  security_group_id = aws_security_group.cloudflare.id
+}
+
